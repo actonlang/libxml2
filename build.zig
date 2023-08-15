@@ -13,7 +13,7 @@ pub fn build(b: *std.build.Builder) void {
         .target = target,
         .optimize = optimize,
     });
-    lib.addIncludePath("include");
+    lib.addIncludePath(.{ .path = "include" });
 
     const libxml_version = "2.12.0";
 
