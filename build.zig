@@ -118,7 +118,10 @@ pub fn build(b: *std.build.Builder) void {
         "xzlib.c",
     };
 
-    lib.addCSourceFiles(&source_files, flags.items);
+    lib.addCSourceFiles(.{
+        .files = &source_files,
+        .flags = flags.items
+    });
     lib.linkLibC();
     lib.installHeadersDirectory("include/libxml", "libxml");
 
