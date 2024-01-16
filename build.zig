@@ -1,9 +1,10 @@
 const std = @import("std");
 const print = @import("std").debug.print;
 
-pub fn build(b: *std.build.Builder) void {
+pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
     const target = b.standardTargetOptions(.{});
+    const t = target.result;
 
     var flags = std.ArrayList([]const u8).init(b.allocator);
     defer flags.deinit();
@@ -23,7 +24,7 @@ pub fn build(b: *std.build.Builder) void {
         },
         .{
             .ATTRIBUTE_DESTRUCTOR = false,
-            .HAVE_ARPA_INET_H = if (target.isWindows()) null else true,
+            .HAVE_ARPA_INET_H = if (t.os.tag == .windows) null else true,
             .HAVE_DLFCN_H = true,
             .HAVE_DLOPEN = true,
             .HAVE_DL_H = true,
@@ -40,7 +41,7 @@ pub fn build(b: *std.build.Builder) void {
             .HAVE_NETINET_IN_H = true,
             .HAVE_POLL_H = true,
             .HAVE_PTHREAD_H = true,
-            .HAVE_RAND_R = if (target.isWindows()) null else true,
+            .HAVE_RAND_R = if (t.os.tag == .windows) null else true,
             .HAVE_SHLLOAD = true,
             .HAVE_STAT = true,
             .HAVE_STDINT_H = true,
