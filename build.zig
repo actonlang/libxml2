@@ -64,6 +64,7 @@ pub fn build(b: *std.Build) void {
     lib.addConfigHeader(config_header);
 
     flags.appendSlice(&.{
+        "-DLIBXML_STATIC",
         "-DLIBXML_VERSION=201200",
         "-DLIBXML_VERSION_STRING=\"" ++ libxml_version ++ "\"",
         "-DLIBXML_VERSION_EXTRA=",
