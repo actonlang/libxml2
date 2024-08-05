@@ -14,7 +14,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    lib.addIncludePath(.{ .path = "include" });
+    lib.addIncludePath(b.path("include"));
 
     const libxml_version = "2.12.0";
 
@@ -68,10 +68,7 @@ pub fn build(b: *std.Build) void {
         "-DLIBXML_VERSION=201200",
         "-DLIBXML_VERSION_STRING=\"" ++ libxml_version ++ "\"",
         "-DLIBXML_VERSION_EXTRA=",
-    }) catch |err| {
-        std.log.err("Error appending iterable dir: {}", .{err});
-        std.os.exit(1);
-    };
+    }) catch unreachable;
 
     const source_files = [_][]const u8{
         "buf.c",
@@ -125,7 +122,7 @@ pub fn build(b: *std.Build) void {
         .flags = flags.items
     });
     lib.linkLibC();
-    lib.installHeadersDirectory("include/libxml", "libxml");
+    lib.installHeadersDirectory(b.path("include/libxml"), "libxml", .{});
 
     b.installArtifact(lib);
 }
